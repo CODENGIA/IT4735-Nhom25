@@ -1,4 +1,3 @@
-// functions/index.js
 const { onValueCreated, onValueWritten } = require("firebase-functions/v2/database");
 const admin = require("firebase-admin");
 
@@ -127,7 +126,7 @@ exports.onLogCreated = onValueCreated("/logs/{logId}", async (event) => {
     device_id: log.device_id || null,
     image_url: log.image_url || null,
 
-    // optional: vẫn lưu để trace log nào đã ghi đè
+    // trace log nào đã ghi đè
     last_log_id: logId,
   });
 });
@@ -178,7 +177,6 @@ exports.onConfigHourChanged = onValueWritten(
     const deviceId = event.params.deviceId;
     const state = await readDeviceState(deviceId);
     if (!state) return;
-
 
     if (state.shutdown) {
       await setAlarmActiveIfNeeded(false);
